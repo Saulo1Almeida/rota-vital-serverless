@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Funcao serverless local para guias de transporte do Rota Vital
+Globals:
+  Function:
+    Timeout: 10 # Alterar para 10 no experimento de timeout
+    MemorySize: 128
+Resources:
+  GuiaTransporteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+      Events:
+        GuiaApi:
+          Type: Api
+          Properties:
+            Path: /guias
+            Method: post
+Outputs:
+  GuiaApi:
+    Description: Endpoint local via sam local start-api
+    Value: http://127.0.0.1:3000/guias
